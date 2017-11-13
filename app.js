@@ -10,7 +10,8 @@ var express = require('express'),
     port = process.env.PORT || 3000;
 
 var userRoutes = require('./routes/users'),
-    authRoutes = require('./routes/auth')
+    authRoutes = require('./routes/auth'),
+    postRoutes = require('./routes/posts');
 
 mongoose.Promise = global.Promise;
 var local_db = process.env.DB_CONNECTION + "://" + process.env.DB_HOST + ":" + 
@@ -30,7 +31,7 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json());
 app.use(cors());
 //middleware for request
-app.use(jwt({ secret: process.env.SECRET }).unless({path: ['/api/v1/login', '/api/v1/register']}));
+app.use(jwt({ secret: process.env.SECRET }).unless({path: ['/api/v1/posts', '/api/v1/register']}));
 app.use(function (err, req, res, next) {
     if (err.name === 'UnauthorizedError') {
       res.status(401).json({msg: 'Token is Invalid'});
@@ -40,7 +41,7 @@ app.use(function (err, req, res, next) {
 app.get('/', function(req, res) {
     res.json({msg: 'Welcome, api routes at \'/api/v1\''});
 });
-app.use('/api/v1', userRoutes, authRoutes);
+app.use('/api/v1', userRoutes, authRoutes, postRoutes);
 
 
 app.listen(port, () => {

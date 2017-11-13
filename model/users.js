@@ -34,6 +34,10 @@ var User = new Schema({
         default: 'standard-user',
         required: false
     },
+    posts:{
+        type: Schema.Types.ObjectId,
+        ref: 'Post'
+    },
     created_at:{
         type: Date,
         default: Date.now,
