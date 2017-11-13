@@ -36,7 +36,7 @@ router.route('/login').post(function(req, res){
         if (!user) {
             res.status(404).json({success: false, message: 'User not found'});
         }else if (user) {
-            if(bcrypt.compareSync(password, user.password)) {
+            if(!bcrypt.compareSync(password, user.password)) {
                 res.status(400).json({success: false, message: "Wrong password"});
             }
             const payload = {
@@ -57,6 +57,7 @@ router.route('/login').post(function(req, res){
 });
 
 router.route('/profile').get(function(req,res){
+    
     var token = req.body.token || req.query.token || req.headers.authorization;
     
     if(token == req.headers.authorization) {

@@ -45,14 +45,14 @@ router.route('/posts').post(function (req, res){
                 if(err) {
                     res.status(400).json({msg: 'user not found'});
                 }else {
-                    var post_id = new Post;
-                    post_id.author = user._id;
+                    var post = new Post;
+                    post.author = user._id;
                     post.title = req.body.title;
                     post.body = req.body.body;
                     post.image_url = req.body.image_url;
                 
                     Post.save().then(post => {
-                        res.json(user);
+                        res.json(post);
                     }).catch(err => {
                         res.json(err);
                     });
@@ -66,18 +66,18 @@ router.route('/posts').post(function (req, res){
 });
 
 
-router.route('/users/:id').patch(function(req,res){
+// // router.route('/users/:id').patch(function(req,res){
 
  
-});
+// // });
 
-router.route('/users/:id').delete(function(req,res){
-    var user_id = req.params.id;
-    User.findByIdAndRemove({_id: user_id}, function(err, user) {
+router.route('/posts/:id').delete(function(req,res){
+    var post_id = req.params.id;
+    Post.findByIdAndRemove({_id: post_id}, function(err, post) {
         if (err) {
             res.json(err);
         } else {
-            res.json("Account Deleted successfully");
+            res.json("Post Deleted successfully");
         }
     })
 });
