@@ -1,6 +1,9 @@
 var express = require("express");
 var app = express();
 var router = express.Router();
+var JWT = require('jsonwebtoken');
+var bcrypt = require('bcrypt');
+var config = require('dotenv').config();
 
 var User = require("../model/users"),
     Post = require("../model/posts");
