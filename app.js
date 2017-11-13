@@ -29,8 +29,14 @@ app = express();
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json());
 app.use(cors());
+//middleware for request
 app.use(jwt({ secret: process.env.SECRET }).unless({path: ['/api/v1/login', '/api/v1/register']}));
-
+app.use(function (err, req, res, next) {
+    if (err.name === 'UnauthorizedError') {
+      res.status(401).json({msg: 'Token is Invalid'});
+    }
+});
+//ends here
 app.get('/', function(req, res) {
     res.json({msg: 'Welcome, api routes at \'/api/v1\''});
 });

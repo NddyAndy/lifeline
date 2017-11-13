@@ -70,9 +70,9 @@ router.route('/profile').get(function(req,res){
         }else {
             User.findById(decoded.data.id,function(err, user) {
                 if(err) {
-                    res.json({msg: 'user not found'});
+                    res.status(400).json({msg: 'user not found'});
                 }else {
-                    res.json(user);
+                    res.status(400).json(user);
                 }
             });
         }
